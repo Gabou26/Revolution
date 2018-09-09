@@ -1,6 +1,6 @@
 # JeuLoisirs07
 
-A prototype (or a game, we'll see) about a character leading an army and crushing people THAT MIGHT BE BAD!
+A prototype (or a game, we'll see) about a character leading an army and crushing people. THEY COULD BE BAD PEOPLE, WE DON'T KNOW!
 
 ## Description
 

@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Graphics;
+using MonoGame.Extended.ViewportAdapters;
 
 namespace JeuLoisirs07___Revolution
 {
@@ -12,10 +16,21 @@ namespace JeuLoisirs07___Revolution
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        // The tile map
+        private TiledMap map;
+        // The renderer for the map
+        private TiledMapRenderer mapRenderer;
+        Camera2D cam;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            //(PouPou)Sert à définir la grandeur de la fenêtre
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.IsFullScreen = false;
         }
 
         /// <summary>
@@ -27,20 +42,24 @@ namespace JeuLoisirs07___Revolution
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
+
+            // Load the compiled map
+            map = Content.Load<TiledMap>("Tiled/jeuloisirs07 - zone sandbox");
+            // Create the map renderer
+            mapRenderer = new TiledMapRenderer(GraphicsDevice);
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
+        //Place to load all of your content
         protected override void LoadContent()
         {
+            var viewPortAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            cam = new Camera2D(viewPortAdapter);
         }
 
         /// <summary>
@@ -52,30 +71,30 @@ namespace JeuLoisirs07___Revolution
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
+            // Update the map
+            // map Should be the `TiledMap`
+            mapRenderer.Update(map, gameTime);
 
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Khaki);
 
-            // TODO: Add your drawing code here
+            // Transform matrix is only needed if you have a Camera2D
+            // Setting the sampler state to `SamplerState.PointClamp` is reccomended to remove gaps between the tiles when rendering
+            spriteBatch.Begin(transformMatrix: cam.GetViewMatrix(), samplerState: SamplerState.PointClamp);
+
+            // map Should be the `TiledMap`
+            // Once again, the transform matrix is only needed if you have a Camera2D
+            mapRenderer.Draw(map, cam.GetViewMatrix());
+
+            // End the sprite batch
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -60,6 +60,8 @@ namespace JeuLoisirs07___Revolution
 
             // TODO: use this.Content to load your game content here
             cam = new Camera2D(viewPortAdapter);
+
+            SpritesHandler.ChangeColorTextureRandom(Content.Load<Texture2D>("Pictures/Pixel Art/JeuLoisirs07/Terrain/Sandbox/Grille-terrain-beta"));
         }
 
         /// <summary>

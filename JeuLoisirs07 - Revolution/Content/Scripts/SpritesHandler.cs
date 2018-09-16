@@ -1,54 +1,56 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JeuLoisirs07___Revolution
 {
     static class SpritesHandler
     {
+
         public static void ChangeColorTextureRandom(Texture2D texture)
         {
+            bool hasNewHsl;
+            HslColor pixelHsl;
+            Random r = new Random();
+
+            //List of changed colors in the texture
+            List<int> colorsChanged = new List<int>();
+            List<int> newColors = new List<int>();
+
+            //Gets pixel color data
             Color[] textureColor = new Color[texture.Width * texture.Height];
             texture.GetData<Color>(textureColor);
 
             for (int i = 0; i < textureColor.Length; i++)
             {
-                switch (textureColor[i].R)
+                if (textureColor[i].A != 0)
                 {
-                    case 227:
-                        textureColor[i].R = 162;
-                        textureColor[i].G = 218;
-                        textureColor[i].B = 230;
-                        break;
-                    case 214:
-                        textureColor[i].R = 143;
-                        textureColor[i].G = 209;
-                        textureColor[i].B = 223;
-                        break;
-                    case 190:
-                        textureColor[i].R = 123;
-                        textureColor[i].G = 202;
-                        textureColor[i].B = 219;
-                        break;
-                    case 102:
-                        textureColor[i].R = 224;
-                        textureColor[i].G = 112;
-                        textureColor[i].B = 125;
-                        break;
-                    default:
-                        break;
+                    //Checks if the color is set to another one. If not, find random color.
+                    pixelHsl = textureColor[i].ToHsl();
+                    hasNewHsl = false;
+                    for (int n = 0; n < colorsChanged.Count; n++)
+                    {
+                        if ((int)pixelHsl.H == colorsChanged[n])
+                        {
+                            pixelHsl = new HslColor(newColors[n], pixelHsl.S, pixelHsl.L);
+                            hasNewHsl = true;
+                        }
+                    }
+                    if (!hasNewHsl)
+                    {
+                        newColors.Add(r.Next(0, 360));
+                        colorsChanged.Add((int)pixelHsl.H);
+                        pixelHsl = new HslColor(newColors[newColors.Count - 1], pixelHsl.S, pixelHsl.L);
+                    }
+                    textureColor[i] = pixelHsl.ToRgb();
                 }
             }
 
-            //(PouPou)Change the color of the texture
+            //Change the color of the texture
             texture.SetData<Color>(textureColor);
         }
-
-
 
 
     }

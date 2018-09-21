@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using JeuLoisirs07___Revolution.Content.Scripts;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
@@ -13,24 +14,17 @@ namespace JeuLoisirs07___Revolution
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
         // The tile map
         private TiledMap map;
         // The renderer for the map
         private TiledMapRenderer mapRenderer;
-        Camera2D cam;
+        CameraManager mainCamera;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            //(PouPou)Sert à définir la grandeur de la fenêtre
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.IsFullScreen = false;
+            mainCamera = new CameraManager(this);
         }
 
         /// <summary>
@@ -46,20 +40,16 @@ namespace JeuLoisirs07___Revolution
 
             // Load the compiled map
             map = Content.Load<TiledMap>("Tiled/jeuloisirs07 - zone sandbox");
+            InfoBank.currentMap = map;
             // Create the map renderer
             mapRenderer = new TiledMapRenderer(GraphicsDevice);
+            InfoBank.currentMapRenderer = mapRenderer;
         }
 
         //Place to load all of your content
         protected override void LoadContent()
         {
-            var viewPortAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
-
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
-            cam = new Camera2D(viewPortAdapter);
+            mainCamera.LoadCamera(new Vector2(1280, 720), false);
 
             SpritesHandler.ChangeColorTextureRandom(Content.Load<Texture2D>("Pictures/Pixel Art/JeuLoisirs07/Terrain/Sandbox/Grille-terrain-beta"));
         }
@@ -79,7 +69,6 @@ namespace JeuLoisirs07___Revolution
             // Update the map
             // map Should be the `TiledMap`
             mapRenderer.Update(map, gameTime);
-
             base.Update(gameTime);
         }
 
@@ -87,17 +76,8 @@ namespace JeuLoisirs07___Revolution
         {
             GraphicsDevice.Clear(Color.Khaki);
 
-            // Transform matrix is only needed if you have a Camera2D
-            // Setting the sampler state to `SamplerState.PointClamp` is reccomended to remove gaps between the tiles when rendering
-            spriteBatch.Begin(transformMatrix: cam.GetViewMatrix(), samplerState: SamplerState.PointClamp);
-
-            // map Should be the `TiledMap`
-            // Once again, the transform matrix is only needed if you have a Camera2D
-            mapRenderer.Draw(map, cam.GetViewMatrix());
-
-            // End the sprite batch
-            spriteBatch.End();
-
+            mainCamera.DrawCamera();
+            
             base.Draw(gameTime);
         }
     }

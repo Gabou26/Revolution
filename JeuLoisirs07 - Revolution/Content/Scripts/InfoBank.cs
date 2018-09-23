@@ -10,7 +10,5 @@ namespace JeuLoisirs07___Revolution.Content.Scripts
 {
     static class InfoBank
     {
-        public static TiledMapRenderer currentMapRenderer;
-        public static TiledMap currentMap;
     }
 }

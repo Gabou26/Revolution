@@ -47,11 +47,9 @@ namespace JeuLoisirs07___Revolution
                     textureColor[i] = pixelHsl.ToRgb();
                 }
             }
-
             //Change the color of the texture
             texture.SetData<Color>(textureColor);
         }
-
 
     }
 }

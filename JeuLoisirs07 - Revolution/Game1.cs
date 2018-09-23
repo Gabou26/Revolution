@@ -14,6 +14,8 @@ namespace JeuLoisirs07___Revolution
     /// </summary>
     public class Game1 : Game
     {
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
         // The tile map
         private TiledMap map;
         // The renderer for the map
@@ -23,8 +25,8 @@ namespace JeuLoisirs07___Revolution
         public Game1()
         {
             Content.RootDirectory = "Content";
-
-            mainCamera = new CameraManager(this);
+            graphics = new GraphicsDeviceManager(this);
+            mainCamera = new CameraManager(new Vector2(1280, 720), false, graphics);
         }
 
         /// <summary>
@@ -40,18 +42,21 @@ namespace JeuLoisirs07___Revolution
 
             // Load the compiled map
             map = Content.Load<TiledMap>("Tiled/jeuloisirs07 - zone sandbox");
-            InfoBank.currentMap = map;
             // Create the map renderer
             mapRenderer = new TiledMapRenderer(GraphicsDevice);
-            InfoBank.currentMapRenderer = mapRenderer;
         }
 
         //Place to load all of your content
         protected override void LoadContent()
         {
-            mainCamera.LoadCamera(new Vector2(1280, 720), false);
-
             SpritesHandler.ChangeColorTextureRandom(Content.Load<Texture2D>("Pictures/Pixel Art/JeuLoisirs07/Terrain/Sandbox/Grille-terrain-beta"));
+
+            var viewPortAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
+            mainCamera.LoadCamera(viewPortAdapter);
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
         }
 
         /// <summary>
@@ -74,9 +79,16 @@ namespace JeuLoisirs07___Revolution
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Khaki);
-
+            GraphicsDevice.Clear(Color.DarkSeaGreen);
             mainCamera.DrawCamera();
+            // Transform matrix is only needed if you have a Camera2D
+            // Setting the sampler state to `SamplerState.PointClamp` is reccomended to remove gaps between the tiles when rendering
+            spriteBatch.Begin(transformMatrix: mainCamera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
+            // map Should be the `TiledMap`
+            // Once again, the transform matrix is only needed if you have a Camera2D
+            mapRenderer.Draw(map, mainCamera.GetViewMatrix());
+            // End the sprite batch
+            spriteBatch.End();
             
             base.Draw(gameTime);
         }

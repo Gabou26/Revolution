@@ -23,14 +23,15 @@ namespace JeuLoisirs07___Revolution.Content.Scripts
             SetFullscreen(isFullScreen, graphics);
         }
 
-        public void LoadCamera(ViewportAdapter viewPortAdapter)
+        public void LoadCamera(Game1 game)
         {
+            var viewPortAdapter = new BoxingViewportAdapter(game.Window, game.GraphicsDevice, 800, 480);
             cam = new Camera2D(viewPortAdapter);
         }
 
         public void UpdatePosition(Vector2 targetPosition)
         {
-            cam.Position = targetPosition;
+            cam.Position = targetPosition - (new Vector2(195, 100) * cam.Zoom);
         }
 
         public void DrawCamera()

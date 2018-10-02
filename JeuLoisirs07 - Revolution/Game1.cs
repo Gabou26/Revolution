@@ -1,4 +1,5 @@
 ﻿using JeuLoisirs07___Revolution.Content.Scripts;
+using JeuLoisirs07___Revolution.Content.Scripts.Personnages;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -40,6 +41,8 @@ namespace JeuLoisirs07___Revolution
             // TODO: Add your initialization logic here
             base.Initialize();
 
+            //Changing default colors
+            SpritesHandler.ChangeColorTextureRandom(Content.Load<Texture2D>("Pictures/TileSheets/Terrains/Grille-terrain-beta"));
             // Load the compiled map
             map = Content.Load<TiledMap>("Tiled/jeuloisirs07 - zone sandbox");
             // Create the map renderer
@@ -49,14 +52,12 @@ namespace JeuLoisirs07___Revolution
         //Place to load all of your content
         protected override void LoadContent()
         {
-            SpritesHandler.ChangeColorTextureRandom(Content.Load<Texture2D>("Pictures/Pixel Art/JeuLoisirs07/Terrain/Sandbox/Grille-terrain-beta"));
+            //Load characters before the camera
+            CharactersManager.GenerateCharacters(this, mainCamera);
 
-            var viewPortAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 480);
-            mainCamera.LoadCamera(viewPortAdapter);
+            mainCamera.LoadCamera(this);
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
         }
 
         /// <summary>
@@ -87,9 +88,9 @@ namespace JeuLoisirs07___Revolution
             // map Should be the `TiledMap`
             // Once again, the transform matrix is only needed if you have a Camera2D
             mapRenderer.Draw(map, mainCamera.GetViewMatrix());
+            CharactersManager.Draw(spriteBatch);
             // End the sprite batch
             spriteBatch.End();
-            
             base.Draw(gameTime);
         }
     }

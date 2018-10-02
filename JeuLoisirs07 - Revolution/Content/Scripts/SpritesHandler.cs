@@ -8,7 +8,6 @@ namespace JeuLoisirs07___Revolution
 {
     static class SpritesHandler
     {
-
         public static void ChangeColorTextureRandom(Texture2D texture)
         {
             bool hasNewHsl;
@@ -50,6 +49,12 @@ namespace JeuLoisirs07___Revolution
             //Change the color of the texture
             texture.SetData<Color>(textureColor);
         }
-
+        /*public static Texture2D[] ObtainSpriteSheetTextures(Vector2 characterBoxSize, Texture2D spriteSheet)
+        {
+            int lengthArrayX = spriteSheet.Bounds.X / (int)characterBoxSize.X;
+            int lengthArrayY = spriteSheet.Bounds.Y / (int)characterBoxSize.Y;
+            Dictionary<string, Texture2D> animations = new Dictionary<string, Texture2D>();
+            animations["d"] = spriteSheet.GetData(new Rectangle());
+        }*/
     }
 }

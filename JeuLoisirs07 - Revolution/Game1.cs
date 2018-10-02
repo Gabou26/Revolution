@@ -15,19 +15,19 @@ namespace JeuLoisirs07___Revolution
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         // The tile map
         private TiledMap map;
         // The renderer for the map
         private TiledMapRenderer mapRenderer;
-        CameraManager mainCamera;
+        public CameraManager mainCamera;
 
         public Game1()
         {
             Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this);
-            mainCamera = new CameraManager(new Vector2(1280, 720), false, graphics);
+            mainCamera = new CameraManager(new Vector2(1280, 720), false, this);
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace JeuLoisirs07___Revolution
         protected override void LoadContent()
         {
             //Load characters before the camera
-            CharactersManager.GenerateCharacters(this, mainCamera);
+            CharactersManager.GenerateCharacters(this);
 
-            mainCamera.LoadCamera(this);
+            mainCamera.LoadCamera();
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }

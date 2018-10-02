@@ -11,19 +11,21 @@ using System.Threading.Tasks;
 
 namespace JeuLoisirs07___Revolution.Content.Scripts
 {
-    class CameraManager
+    public class CameraManager
     {
         //Champs
         private Camera2D cam;
+        private Game1 game;
 
         //functions
-        public CameraManager(Vector2 size, bool isFullScreen, GraphicsDeviceManager graphics)
+        public CameraManager(Vector2 size, bool isFullScreen, Game1 game)
         {
-            SetWindowSize(size, graphics);
-            SetFullscreen(isFullScreen, graphics);
+            this.game = game;
+            SetWindowSize(size);
+            SetFullscreen(isFullScreen);
         }
 
-        public void LoadCamera(Game1 game)
+        public void LoadCamera()
         {
             var viewPortAdapter = new BoxingViewportAdapter(game.Window, game.GraphicsDevice, 800, 480);
             cam = new Camera2D(viewPortAdapter);
@@ -31,23 +33,23 @@ namespace JeuLoisirs07___Revolution.Content.Scripts
 
         public void UpdatePosition(Vector2 targetPosition)
         {
-            cam.Position = targetPosition - (new Vector2(195, 100) * cam.Zoom);
+            cam.Position = targetPosition - (new Vector2(392, 224));
         }
 
         public void DrawCamera()
         {
-            cam.Zoom = 2;
+            cam.Zoom = 2.2f;
         }
 
-        void SetFullscreen(bool config, GraphicsDeviceManager graphics)
+        void SetFullscreen(bool config)
         {
-            graphics.IsFullScreen = config;
+            game.graphics.IsFullScreen = config;
         }
 
-        void SetWindowSize(Vector2 size, GraphicsDeviceManager graphics)
+        void SetWindowSize(Vector2 size)
         {
-            graphics.PreferredBackBufferWidth = (int)size.X;
-            graphics.PreferredBackBufferHeight = (int)size.Y;
+            game.graphics.PreferredBackBufferWidth = (int)size.X;
+            game.graphics.PreferredBackBufferHeight = (int)size.Y;
         }
 
         public Matrix GetViewMatrix()

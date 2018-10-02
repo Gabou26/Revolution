@@ -13,15 +13,16 @@ namespace JeuLoisirs07___Revolution.Content.Scripts.Personnages
     {
         static MainCharacter player;
 
-        public static void GenerateCharacters(Game1 game, CameraManager mainCamera)
+        public static void GenerateCharacters(Game1 game)
         {
-            GenerateMainCharacter(game, mainCamera);
+            GenerateMainCharacter(game);
         }
 
-        static void GenerateMainCharacter(Game1 game, CameraManager mainCamera)
+        static void GenerateMainCharacter(Game1 game)
         {
             //Create Main Camera
-            player = new MainCharacter(game, mainCamera);
+
+            player = new MainCharacter(game);
         }
 
         public static void Draw(SpriteBatch spriteBatch)

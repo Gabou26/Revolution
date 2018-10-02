@@ -15,10 +15,10 @@ namespace JeuLoisirs07___Revolution.Content.Scripts.Personnages
         Texture2D spriteSheet;
         CameraManager followingCamera;
 
-        public MainCharacter(Game1 game, CameraManager followingCamera)
+        public MainCharacter(Game1 game)
         {
             position = new Vector2(-20, 0);
-            this.followingCamera = followingCamera;
+            followingCamera = game.mainCamera;
             spriteSheet = game.Content.Load<Texture2D>("Pictures/SpriteSheets/Perso-prototype");
         }
 

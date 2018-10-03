@@ -19,18 +19,6 @@
 /processor:TiledMapProcessor
 /build:Tiled/jeuloisirs07 - zone sandbox.tmx
 
-#begin Pictures/Pixel Art/JeuLoisirs07/Terrain/Sandbox/Grille-terrain-beta.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Pictures/Pixel Art/JeuLoisirs07/Terrain/Sandbox/Grille-terrain-beta.png
-
 #begin Pictures/TileSheets/Terrains/Grille-terrain-beta.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -43,7 +31,7 @@
 /processorParam:TextureFormat=Color
 /build:Pictures/TileSheets/Terrains/Grille-terrain-beta.png
 
-#begin Pictures/SpriteSheets/Perso-prototype.png
+#begin Pictures/SpriteSheets/Perso-prototype-sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -53,5 +41,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pictures/SpriteSheets/Perso-prototype.png
+/build:Pictures/SpriteSheets/Perso-prototype-sheet.png
 

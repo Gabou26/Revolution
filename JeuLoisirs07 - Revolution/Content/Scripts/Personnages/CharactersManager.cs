@@ -9,23 +9,28 @@ using System.Threading.Tasks;
 
 namespace JeuLoisirs07___Revolution.Content.Scripts.Personnages
 {
-    static class CharactersManager
+    class CharactersManager
     {
-        static MainCharacter player;
+        MainCharacter player;
 
-        public static void GenerateCharacters(Game1 game)
+        public void GenerateCharacters(Game1 game)
         {
             GenerateMainCharacter(game);
         }
 
-        static void GenerateMainCharacter(Game1 game)
+        void GenerateMainCharacter(Game1 game)
         {
             //Create Main Camera
 
             player = new MainCharacter(game);
         }
 
-        public static void Draw(SpriteBatch spriteBatch)
+        public void UpdateAll(GameTime gameTime)
+        {
+            player.Update(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
         {
             player.Draw(spriteBatch);
         }

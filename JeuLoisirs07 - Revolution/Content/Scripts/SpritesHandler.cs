@@ -49,12 +49,29 @@ namespace JeuLoisirs07___Revolution
             //Change the color of the texture
             texture.SetData<Color>(textureColor);
         }
-        /*public static Texture2D[] ObtainSpriteSheetTextures(Vector2 characterBoxSize, Texture2D spriteSheet)
+
+        public static Dictionary<string, Rectangle[]> GetSpriteSheetTextures(Point sizeCharacter, Texture2D spriteSheet)
         {
-            int lengthArrayX = spriteSheet.Bounds.X / (int)characterBoxSize.X;
-            int lengthArrayY = spriteSheet.Bounds.Y / (int)characterBoxSize.Y;
-            Dictionary<string, Texture2D> animations = new Dictionary<string, Texture2D>();
-            animations["d"] = spriteSheet.GetData(new Rectangle());
-        }*/
+            Dictionary<string, Rectangle[]> animations = new Dictionary<string, Rectangle[]>();
+            Point lengthArray = new Point(spriteSheet.Bounds.X / sizeCharacter.X, spriteSheet.Bounds.Y / sizeCharacter.Y);
+
+            Rectangle[][] animationArray = SeparateAnimations(sizeCharacter, spriteSheet , lengthArray);
+            animations["walk_up"] = animationArray[0];
+            return animations;
+        }
+
+        static Rectangle[][] SeparateAnimations(Point characterBoxSize, Texture2D spriteSheet, Point lengthArray)
+        {
+            Rectangle[][] animationArray = new Rectangle[lengthArray.Y][];
+            for (int y = 0; y < lengthArray.Y; y++)
+            {
+                animationArray[y] = new Rectangle[lengthArray.X];
+                for (int x = 0; x < lengthArray.X; x++)
+                {
+                    animationArray[y][x] = new Rectangle(characterBoxSize.X * x, characterBoxSize.Y * y, characterBoxSize.X, characterBoxSize.Y);
+                }
+            }
+            return animationArray;
+        }
     }
 }

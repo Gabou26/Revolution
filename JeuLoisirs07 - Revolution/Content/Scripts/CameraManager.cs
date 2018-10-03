@@ -38,7 +38,7 @@ namespace JeuLoisirs07___Revolution.Content.Scripts
 
         public void DrawCamera()
         {
-            cam.Zoom = 2.2f;
+            cam.Zoom = 2;
         }
 
         void SetFullscreen(bool config)

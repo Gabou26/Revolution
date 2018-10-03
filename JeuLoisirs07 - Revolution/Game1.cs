@@ -21,6 +21,7 @@ namespace JeuLoisirs07___Revolution
         private TiledMap map;
         // The renderer for the map
         private TiledMapRenderer mapRenderer;
+        CharactersManager characterManager;
         public CameraManager mainCamera;
 
         public Game1()
@@ -28,6 +29,7 @@ namespace JeuLoisirs07___Revolution
             Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this);
             mainCamera = new CameraManager(new Vector2(1280, 720), false, this);
+            characterManager = new CharactersManager();
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace JeuLoisirs07___Revolution
         protected override void LoadContent()
         {
             //Load characters before the camera
-            CharactersManager.GenerateCharacters(this);
+            characterManager.GenerateCharacters(this);
 
             mainCamera.LoadCamera();
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -74,6 +76,7 @@ namespace JeuLoisirs07___Revolution
         {
             // Update the map
             // map Should be the `TiledMap`
+            characterManager.UpdateAll(gameTime);
             mapRenderer.Update(map, gameTime);
             base.Update(gameTime);
         }
@@ -81,14 +84,14 @@ namespace JeuLoisirs07___Revolution
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSeaGreen);
-            mainCamera.DrawCamera();
             // Transform matrix is only needed if you have a Camera2D
             // Setting the sampler state to `SamplerState.PointClamp` is reccomended to remove gaps between the tiles when rendering
             spriteBatch.Begin(transformMatrix: mainCamera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
             // map Should be the `TiledMap`
             // Once again, the transform matrix is only needed if you have a Camera2D
             mapRenderer.Draw(map, mainCamera.GetViewMatrix());
-            CharactersManager.Draw(spriteBatch);
+            characterManager.Draw(spriteBatch);
+            mainCamera.DrawCamera();
             // End the sprite batch
             spriteBatch.End();
             base.Draw(gameTime);

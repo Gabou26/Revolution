@@ -45,6 +45,7 @@
     <Compile Include="Content\Scripts\InfoBank.cs" />
     <Compile Include="Content\Scripts\Personnages\CharactersManager.cs" />
     <Compile Include="Content\Scripts\Personnages\MainCharacter.cs" />
+    <Compile Include="Content\Scripts\SpriteAnimation.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
